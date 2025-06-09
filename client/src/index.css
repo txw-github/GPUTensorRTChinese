@@ -1,0 +1,264 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: hsl(0, 0%, 100%);
+  --foreground: hsl(20, 14.3%, 4.1%);
+  --muted: hsl(60, 4.8%, 95.9%);
+  --muted-foreground: hsl(25, 5.3%, 44.7%);
+  --popover: hsl(0, 0%, 100%);
+  --popover-foreground: hsl(20, 14.3%, 4.1%);
+  --card: hsl(0, 0%, 100%);
+  --card-foreground: hsl(20, 14.3%, 4.1%);
+  --border: hsl(20, 5.9%, 90%);
+  --input: hsl(20, 5.9%, 90%);
+  --primary: hsl(210, 90%, 54%);
+  --primary-foreground: hsl(210, 100%, 99%);
+  --secondary: hsl(60, 4.8%, 95.9%);
+  --secondary-foreground: hsl(24, 9.8%, 10%);
+  --accent: hsl(60, 4.8%, 95.9%);
+  --accent-foreground: hsl(24, 9.8%, 10%);
+  --destructive: hsl(0, 84.2%, 60.2%);
+  --destructive-foreground: hsl(60, 9.1%, 97.8%);
+  --ring: hsl(20, 14.3%, 4.1%);
+  --radius: 0.5rem;
+  
+  /* Success colors for system status */
+  --success: hsl(142, 71%, 45%);
+  --success-foreground: hsl(0, 0%, 100%);
+  
+  /* Warning colors for VRAM usage */
+  --warning: hsl(45, 93%, 47%);
+  --warning-foreground: hsl(26, 83%, 14%);
+}
+
+.dark {
+  --background: hsl(240, 10%, 3.9%);
+  --foreground: hsl(0, 0%, 98%);
+  --muted: hsl(240, 3.7%, 15.9%);
+  --muted-foreground: hsl(240, 5%, 64.9%);
+  --popover: hsl(240, 10%, 3.9%);
+  --popover-foreground: hsl(0, 0%, 98%);
+  --card: hsl(240, 10%, 3.9%);
+  --card-foreground: hsl(0, 0%, 98%);
+  --border: hsl(240, 3.7%, 15.9%);
+  --input: hsl(240, 3.7%, 15.9%);
+  --primary: hsl(210, 90%, 54%);
+  --primary-foreground: hsl(210, 100%, 99%);
+  --secondary: hsl(240, 3.7%, 15.9%);
+  --secondary-foreground: hsl(0, 0%, 98%);
+  --accent: hsl(240, 3.7%, 15.9%);
+  --accent-foreground: hsl(0, 0%, 98%);
+  --destructive: hsl(0, 62.8%, 30.6%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --ring: hsl(240, 4.9%, 83.9%);
+  --radius: 0.5rem;
+  
+  --success: hsl(142, 71%, 45%);
+  --success-foreground: hsl(0, 0%, 100%);
+  
+  --warning: hsl(45, 93%, 47%);
+  --warning-foreground: hsl(26, 83%, 14%);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+  }
+}
+
+/* Custom styles for the video transcription interface */
+.progress-bar-warning .bg-primary {
+  background-color: hsl(45, 93%, 47%);
+}
+
+.animate-pulse-slow {
+  animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* WebSocket connection status indicator */
+.connection-status {
+  @apply inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium;
+}
+
+.connection-status.connected {
+  @apply bg-green-50 text-green-600;
+}
+
+.connection-status.disconnected {
+  @apply bg-red-50 text-red-600;
+}
+
+.connection-status.connecting {
+  @apply bg-yellow-50 text-yellow-600;
+}
+
+/* GPU utilization colors */
+.gpu-high-usage {
+  background-color: hsl(0, 84%, 60%);
+}
+
+.gpu-medium-usage {
+  background-color: hsl(45, 93%, 47%);
+}
+
+.gpu-low-usage {
+  background-color: hsl(142, 71%, 45%);
+}
+
+/* Real-time transcription styles */
+.transcription-segment {
+  @apply flex items-start space-x-3 py-1;
+}
+
+.transcription-segment.processing {
+  @apply opacity-75;
+}
+
+.transcription-timestamp {
+  @apply text-gray-400 min-w-0 flex-shrink-0 font-mono text-xs;
+}
+
+.transcription-text {
+  @apply text-gray-900 text-sm leading-relaxed;
+}
+
+/* Processing queue animations */
+.processing-item {
+  @apply border rounded-lg p-4 transition-all duration-200;
+}
+
+.processing-item.active {
+  @apply bg-blue-50 border-blue-200;
+}
+
+.processing-item.completed {
+  @apply bg-green-50 border-green-200;
+}
+
+.processing-item.failed {
+  @apply bg-red-50 border-red-200;
+}
+
+/* File upload zone enhancements */
+.upload-zone {
+  @apply border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-all duration-200;
+}
+
+.upload-zone.drag-active {
+  @apply border-primary bg-primary/5;
+}
+
+.upload-zone:hover {
+  @apply border-primary bg-primary/5;
+}
+
+/* Performance monitor charts */
+.performance-chart {
+  @apply h-2 bg-gray-200 rounded-full overflow-hidden;
+}
+
+.performance-chart .fill {
+  @apply h-full transition-all duration-1000;
+}
+
+/* System status indicators */
+.status-indicator {
+  @apply w-2 h-2 rounded-full;
+}
+
+.status-indicator.active {
+  @apply bg-green-500;
+}
+
+.status-indicator.inactive {
+  @apply bg-red-500;
+}
+
+.status-indicator.warning {
+  @apply bg-yellow-500;
+}
+
+/* Loading states */
+.skeleton {
+  @apply animate-pulse bg-gray-200 rounded;
+}
+
+.skeleton-text {
+  @apply h-4 bg-gray-200 rounded;
+}
+
+.skeleton-avatar {
+  @apply w-10 h-10 bg-gray-200 rounded-lg;
+}
+
+/* Code syntax highlighting for usage examples */
+.code-block {
+  @apply font-mono text-xs bg-gray-50 p-3 rounded overflow-x-auto;
+}
+
+.code-block .comment {
+  @apply text-gray-500;
+}
+
+.code-block .keyword {
+  @apply text-blue-600 font-medium;
+}
+
+.code-block .string {
+  @apply text-green-600;
+}
+
+.code-block .number {
+  @apply text-purple-600;
+}
+
+/* Responsive design helpers */
+@media (max-width: 768px) {
+  .mobile-stack {
+    @apply flex-col space-y-4 space-x-0;
+  }
+  
+  .mobile-hide {
+    @apply hidden;
+  }
+}
+
+/* Accessibility improvements */
+.focus-visible {
+  @apply outline-none ring-2 ring-primary ring-offset-2;
+}
+
+/* Dark mode specific adjustments */
+.dark .transcription-text {
+  @apply text-gray-100;
+}
+
+.dark .transcription-timestamp {
+  @apply text-gray-500;
+}
+
+.dark .code-block {
+  @apply bg-gray-800 text-gray-100;
+}
+
+.dark .code-block .comment {
+  @apply text-gray-400;
+}
+
+.dark .skeleton {
+  @apply bg-gray-700;
+}
+
+.dark .skeleton-text {
+  @apply bg-gray-700;
+}
+
+.dark .skeleton-avatar {
+  @apply bg-gray-700;
+}
