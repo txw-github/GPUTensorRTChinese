@@ -151,11 +151,13 @@
 }
 
 .upload-zone.drag-active {
-  @apply border-primary bg-primary/10;
+  @apply border-primary;
+  background-color: hsl(var(--primary) / 0.1);
 }
 
 .upload-zone:hover {
-  @apply border-primary bg-primary/10;
+  @apply border-primary;
+  background-color: hsl(var(--primary) / 0.1);
 }
 
 /* Performance monitor charts */
