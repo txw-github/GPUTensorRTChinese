@@ -6,7 +6,7 @@ import multer from "multer";
 import path from "path";
 import fs from "fs";
 import { z } from "zod";
-import WebSocket from "ws";
+import WebSocket, { WebSocketServer } from "ws";
 
 // Import Python transcription modules (would be integrated via child process or API)
 // For now, we'll simulate the transcription process
@@ -37,7 +37,7 @@ const upload = multer({
 class TranscriptionSimulator {
   private activeJobs = new Map<number, NodeJS.Timeout>();
   
-  startJob(jobId: number, websocket?: WebSocket.Server) {
+  startJob(jobId: number, websocket?: WebSocketServer) {
     if (this.activeJobs.has(jobId)) return;
     
     const updateProgress = async (progress: number, message: string) => {
@@ -156,41 +156,6 @@ const transcriptionSimulator = new TranscriptionSimulator();
 export async function registerRoutes(app: Express): Promise<Server> {
   // Create HTTP server
   const httpServer = createServer(app);
-  
-  // Setup WebSocket server
-  const wss = new WebSocket.Server({ server: httpServer });
-  
-  wss.on('connection', (ws) => {
-    console.log('WebSocket client connected');
-    
-    ws.on('message', (message) => {
-      try {
-        const data = JSON.parse(message.toString());
-        console.log('Received WebSocket message:', data);
-        
-        // Handle WebSocket messages (subscribe to jobs, metrics, etc.)
-        if (data.type === 'subscribe_job') {
-          // Client wants to subscribe to job updates
-          ws.send(JSON.stringify({
-            type: 'subscribed',
-            data: { jobId: data.jobId }
-          }));
-        }
-      } catch (error) {
-        console.error('Error parsing WebSocket message:', error);
-      }
-    });
-    
-    ws.on('close', () => {
-      console.log('WebSocket client disconnected');
-    });
-    
-    // Send welcome message
-    ws.send(JSON.stringify({
-      type: 'welcome',
-      data: { message: 'Connected to transcription service' }
-    }));
-  });
 
   // Get all transcription jobs
   app.get("/api/jobs", async (req, res) => {
@@ -378,13 +343,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ message: "Job not found or not completed" });
       }
 
-      if (!job.results || !job.results.segments) {
+      if (!job.results || typeof job.results !== 'object' || !('segments' in job.results)) {
         return res.status(404).json({ message: "No transcription results available" });
+      }
+
+      const results = job.results as any;
+      if (!results.segments) {
+        return res.status(404).json({ message: "No transcription segments available" });
       }
 
       // Generate subtitle content based on format
       let content = "";
-      const segments = job.results.segments;
+      const segments = results.segments;
 
       if (format === "srt") {
         content = generateSRT(segments);
@@ -393,7 +363,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         content = generateVTT(segments);
         res.setHeader('Content-Type', 'text/vtt; charset=utf-8');
       } else if (format === "txt") {
-        content = job.results.fullText || segments.map(s => s.text).join(" ");
+        content = results.fullText || segments.map((s: any) => s.text).join(" ");
         res.setHeader('Content-Type', 'text/plain; charset=utf-8');
       } else {
         return res.status(400).json({ message: "Unsupported format" });
