@@ -6,7 +6,7 @@ import multer from "multer";
 import path from "path";
 import fs from "fs";
 import { z } from "zod";
-import WebSocket, { WebSocketServer } from "ws";
+// WebSocket functionality removed to avoid conflicts with Vite dev server
 
 // Import Python transcription modules (would be integrated via child process or API)
 // For now, we'll simulate the transcription process
@@ -37,7 +37,7 @@ const upload = multer({
 class TranscriptionSimulator {
   private activeJobs = new Map<number, NodeJS.Timeout>();
   
-  startJob(jobId: number, websocket?: WebSocketServer) {
+  startJob(jobId: number) {
     if (this.activeJobs.has(jobId)) return;
     
     const updateProgress = async (progress: number, message: string) => {
@@ -45,18 +45,6 @@ class TranscriptionSimulator {
         progress, 
         gpuUtilization: Math.floor(Math.random() * 30) + 70 // 70-100%
       });
-      
-      // Broadcast via WebSocket if available
-      if (websocket) {
-        websocket.clients.forEach(client => {
-          if (client.readyState === WebSocket.OPEN) {
-            client.send(JSON.stringify({
-              type: 'progress_update',
-              data: { jobId, progress, message }
-            }));
-          }
-        });
-      }
     };
     
     let progress = 0;
@@ -106,17 +94,7 @@ class TranscriptionSimulator {
           completedAt: new Date()
         });
         
-        // Broadcast completion
-        if (websocket) {
-          websocket.clients.forEach(client => {
-            if (client.readyState === WebSocket.OPEN) {
-              client.send(JSON.stringify({
-                type: 'job_completed',
-                data: { jobId, results: mockResults }
-              }));
-            }
-          });
-        }
+        // Job completed - real-time updates would be handled by frontend polling
         
         return;
       }
@@ -323,7 +301,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       await storage.updateJob(id, { status: "processing", progress: 0 });
       
       // Start the simulated transcription process
-      transcriptionSimulator.startJob(id, wss);
+      transcriptionSimulator.startJob(id);
       
       res.json({ message: "Transcription started", jobId: id });
     } catch (error) {
@@ -390,15 +368,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       await storage.addSystemMetrics(metrics);
       
-      // Broadcast to WebSocket clients
-      wss.clients.forEach(client => {
-        if (client.readyState === WebSocket.OPEN) {
-          client.send(JSON.stringify({
-            type: 'system_metrics',
-            data: metrics
-          }));
-        }
-      });
+      // System metrics updated - real-time updates handled by frontend polling
     } catch (error) {
       console.error("Error updating system metrics:", error);
     }

@@ -151,11 +151,11 @@
 }
 
 .upload-zone.drag-active {
-  @apply border-primary bg-primary/5;
+  @apply border-primary bg-primary/10;
 }
 
 .upload-zone:hover {
-  @apply border-primary bg-primary/5;
+  @apply border-primary bg-primary/10;
 }
 
 /* Performance monitor charts */
