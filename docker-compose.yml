@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  video-transcriber:
+    build: .
+    container_name: video-transcriber
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+      - "8001:8001"
+    volumes:
+      - ./uploads:/app/uploads
+      - ./logs:/app/logs
+      - ./models:/app/models
+      - ./config.json:/app/config.json
+    environment:
+      - NODE_ENV=production
+      - CUDA_VISIBLE_DEVICES=0
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/api/system/metrics"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+  # 可选：添加Redis缓存
+  redis:
+    image: redis:7-alpine
+    container_name: video-transcriber-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+
+  # 可选：添加Nginx反向代理
+  nginx:
+    image: nginx:alpine
+    container_name: video-transcriber-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./ssl:/etc/nginx/ssl
+    depends_on:
+      - video-transcriber
+
+volumes:
+  redis_data:
