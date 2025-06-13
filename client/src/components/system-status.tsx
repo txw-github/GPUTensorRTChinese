@@ -18,9 +18,9 @@ export function SystemStatus({ detailed = false }: SystemStatusProps) {
   if (!detailed) {
     // Simple status badge for header
     return (
-      <Badge variant="secondary" className="bg-green-50 text-green-600">
-        <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse mr-2"></div>
-        GPU Ready
+      <Badge variant="secondary" className="bg-green-500/20 text-green-400 border-green-500/30">
+        <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse mr-2"></div>
+        RTX 3060 Ti
       </Badge>
     );
   }
