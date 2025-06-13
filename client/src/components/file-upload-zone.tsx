@@ -11,6 +11,9 @@ import type { ChineseSettings } from "@shared/schema";
 
 interface FileUploadZoneProps {
   settings: ChineseSettings;
+  selectedModel: string;
+  tensorrtEnabled: boolean;
+  gpuOptimization: boolean;
 }
 
 interface UploadingFile {
@@ -20,7 +23,7 @@ interface UploadingFile {
   jobId?: number;
 }
 
-export function FileUploadZone({ settings }: FileUploadZoneProps) {
+export function FileUploadZone({ settings, selectedModel, tensorrtEnabled, gpuOptimization }: FileUploadZoneProps) {
   const [uploadingFiles, setUploadingFiles] = useState<UploadingFile[]>([]);
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -30,6 +33,9 @@ export function FileUploadZone({ settings }: FileUploadZoneProps) {
       const formData = new FormData();
       formData.append('video', file);
       formData.append('settings', JSON.stringify(settings));
+      formData.append('model', selectedModel);
+      formData.append('tensorrtEnabled', tensorrtEnabled.toString());
+      formData.append('gpuOptimization', gpuOptimization.toString());
       formData.append('outputFormats', 'srt,vtt,txt');
       formData.append('language', 'zh');
 
