@@ -176,6 +176,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
         segmentationMethod: 'jieba'
       };
 
+      const model = req.body.model || 'whisper-large-v3';
+      const tensorrtEnabled = req.body.tensorrtEnabled === 'true';
+      const gpuOptimization = req.body.gpuOptimization === 'true';
+
       const outputFormats = req.body.outputFormats 
         ? req.body.outputFormats.split(',')
         : ['srt', 'vtt'];
@@ -190,6 +194,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         resolution: "1920x1080", // Would be extracted from video
         duration: Math.floor(Math.random() * 7200) + 600, // 10min - 2hr (simulated)
         language: req.body.language || "zh",
+        model,
         settings,
         outputFormats
       };
@@ -240,6 +245,36 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error deleting job:", error);
       res.status(500).json({ message: "Failed to delete job" });
+    }
+  });
+
+  // Get available models
+  app.get("/api/models", async (req, res) => {
+    try {
+      const { AVAILABLE_MODELS } = await import("@shared/schema");
+      
+      // Simulate GPU compatibility check for RTX 3060 Ti
+      const modelsWithCompatibility = AVAILABLE_MODELS.map(model => ({
+        ...model,
+        available: true,
+        memoryUsage: model.gpuMemoryRequired,
+        estimatedSpeed: model.name.includes('large') ? 'slow' : model.name.includes('medium') ? 'medium' : 'fast',
+        rtx3060tiOptimized: true
+      }));
+      
+      res.json({
+        models: modelsWithCompatibility,
+        gpuInfo: {
+          name: "NVIDIA GeForce RTX 3060 Ti",
+          memoryTotal: 8192,
+          memoryAvailable: 6144,
+          cudaVersion: "12.1",
+          tensorrtSupported: true
+        }
+      });
+    } catch (error) {
+      console.error("Error fetching models:", error);
+      res.status(500).json({ message: "Failed to fetch models" });
     }
   });
 
