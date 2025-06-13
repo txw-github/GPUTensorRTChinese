@@ -12,15 +12,25 @@ interface SystemStatusProps {
 export function SystemStatus({ detailed = false }: SystemStatusProps) {
   const { data: metrics, refetch, isLoading } = useQuery<SystemMetrics>({
     queryKey: ['/api/system/metrics'],
-    refetchInterval: 5000,
+    refetchInterval: 2000,
   });
 
   if (!detailed) {
     // Simple status badge for header
+    const gpuStatus = metrics?.gpuUtilization ? 
+      (metrics.gpuUtilization > 80 ? 'high' : metrics.gpuUtilization > 50 ? 'medium' : 'low') : 'low';
+    
+    const statusColor = gpuStatus === 'high' ? 'text-red-400 border-red-500/30 bg-red-500/20' :
+                       gpuStatus === 'medium' ? 'text-yellow-400 border-yellow-500/30 bg-yellow-500/20' :
+                       'text-green-400 border-green-500/30 bg-green-500/20';
+
     return (
-      <Badge variant="secondary" className="bg-green-500/20 text-green-400 border-green-500/30">
-        <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse mr-2"></div>
-        RTX 3060 Ti
+      <Badge variant="secondary" className={`${statusColor} font-mono text-xs`}>
+        <div className={`w-2 h-2 rounded-full animate-pulse mr-2 ${
+          gpuStatus === 'high' ? 'bg-red-400' : 
+          gpuStatus === 'medium' ? 'bg-yellow-400' : 'bg-green-400'
+        }`}></div>
+        GPU {metrics?.gpuUtilization || 0}%
       </Badge>
     );
   }

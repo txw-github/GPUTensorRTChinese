@@ -36,30 +36,24 @@ export default function Home() {
   const currentModel = getModelInfo(selectedModel);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-800">
-      {/* Glass morphism header */}
-      <header className="backdrop-blur-xl bg-white/10 border-b border-white/20 sticky top-0 z-50">
+    <div className="min-h-screen gradient-animation">
+      {/* 现代化导航栏 */}
+      <header className="glass sticky top-0 z-50 border-b border-white/10">
         <div className="container mx-auto px-6 lg:px-8">
-          <div className="flex justify-between items-center h-20">
-            <div className="flex items-center space-x-4">
-              <div className="w-14 h-14 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-2xl animate-pulse">
-                <Video className="text-white" size={28} />
+          <div className="flex justify-between items-center h-16">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
+                <Video className="text-white" size={20} />
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-white drop-shadow-lg">
-                  AI 视频转录系统
-                </h1>
-                <p className="text-cyan-200 font-medium tracking-wide">RTX 3060 Ti • 专业级中文识别</p>
+                <h1 className="text-xl font-bold text-white">AI 视频转录</h1>
+                <p className="text-xs text-blue-200">RTX 3060 Ti 专业版</p>
               </div>
             </div>
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-3">
               <SystemStatus />
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                className="h-10 w-10 rounded-full bg-white/10 hover:bg-white/20 border border-white/30"
-              >
-                <Settings className="text-white" size={18} />
+              <Button variant="ghost" size="sm" className="glass-light text-white hover:bg-white/20">
+                <Settings size={16} />
               </Button>
             </div>
           </div>
