@@ -1,0 +1,31 @@
+中文电视剧转录系统 - Windows 快速启动指南
+
+=== 最简单的启动方法 ===
+
+1. 双击运行：start-windows.bat
+   （这个文件会自动完成所有设置）
+
+2. 如果第1步不行，双击运行：start-cmd.bat
+
+3. 如果都不行，打开命令提示符：
+   cd D:\Desktop\GPUTensorRTChinese-main
+   set NODE_ENV=development&& npx tsx server/index.ts
+
+4. 启动成功后打开浏览器访问：
+   http://localhost:5000
+
+=== 问题排查 ===
+
+如果显示 "NODE_ENV 不是内部或外部命令"：
+- 方法1：使用 start-windows.bat
+- 方法2：使用 start-cmd.bat  
+- 方法3：在命令行输入：
+  npx cross-env NODE_ENV=development tsx server/index.ts
+
+如果提示 "tsx 找不到"：
+- 先运行：npm install
+- 然后重新启动
+
+=== 联系支持 ===
+
+如果以上方法都不行，请提供错误信息截图。
