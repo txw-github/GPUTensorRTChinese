@@ -38,65 +38,65 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
       {/* Modern Header */}
-      <header className="bg-white/80 backdrop-blur-xl border-b border-gray-200/50 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-20">
-            <div className="flex items-center space-x-4">
-              <div className="w-12 h-12 bg-gradient-to-br from-purple-600 to-blue-600 rounded-2xl flex items-center justify-center shadow-lg">
-                <Video className="text-white" size={24} />
+      <header className="bg-white/90 backdrop-blur-xl border-b border-gray-200/50 sticky top-0 z-50">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-gradient-to-br from-purple-600 to-blue-600 rounded-xl flex items-center justify-center shadow-lg">
+                <Video className="text-white" size={20} />
               </div>
               <div>
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+                <h1 className="text-xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
                   中文视频转录系统
                 </h1>
-                <p className="text-sm text-gray-600 font-medium">RTX 3060 Ti 专业版 • 多模型智能转录</p>
+                <p className="text-xs text-gray-600 font-medium">RTX 3060 Ti 专业版</p>
               </div>
             </div>
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-3">
               <SystemStatus />
-              <Button variant="ghost" size="sm" className="h-10 w-10 rounded-full">
-                <Settings size={18} />
+              <Button variant="ghost" size="sm" className="h-8 w-8 rounded-full">
+                <Settings size={16} />
               </Button>
             </div>
           </div>
         </div>
       </header>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
         {/* Quick Action Bar */}
-        <div className="mb-8">
-          <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-6 border border-gray-200/50 shadow-sm">
-            <div className="flex flex-wrap items-center justify-between gap-4">
-              <div className="flex items-center gap-6">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center">
-                    <Upload className="w-5 h-5 text-green-600" />
+        <div className="mb-6">
+          <div className="bg-white/80 backdrop-blur-sm rounded-xl p-4 border border-gray-200/50 shadow-sm">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
+                    <Upload className="w-4 h-4 text-green-600" />
                   </div>
                   <div>
-                    <p className="font-semibold text-gray-900">快速上传</p>
-                    <p className="text-sm text-gray-600">拖拽视频文件开始转录</p>
+                    <p className="font-semibold text-gray-900 text-sm">快速上传</p>
+                    <p className="text-xs text-gray-600">拖拽视频文件</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center">
-                    <Gauge className="w-5 h-5 text-blue-600" />
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                    <Gauge className="w-4 h-4 text-blue-600" />
                   </div>
                   <div>
-                    <p className="font-semibold text-gray-900">实时监控</p>
-                    <p className="text-sm text-gray-600">GPU使用率和进度</p>
+                    <p className="font-semibold text-gray-900 text-sm">实时监控</p>
+                    <p className="text-xs text-gray-600">GPU状态</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center">
-                    <Download className="w-5 h-5 text-purple-600" />
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
+                    <Download className="w-4 h-4 text-purple-600" />
                   </div>
                   <div>
-                    <p className="font-semibold text-gray-900">多格式导出</p>
-                    <p className="text-sm text-gray-600">SRT/VTT/TXT字幕</p>
+                    <p className="font-semibold text-gray-900 text-sm">多格式导出</p>
+                    <p className="text-xs text-gray-600">SRT/VTT/TXT</p>
                   </div>
                 </div>
               </div>
-              <Button className="bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg hover:shadow-xl transition-all duration-200">
+              <Button className="bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg hover:shadow-xl transition-all duration-200 h-9">
                 <Play className="w-4 h-4 mr-2" />
                 开始转录
               </Button>
@@ -104,7 +104,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
           {/* Main Upload and Processing Area */}
           <div className="lg:col-span-2 space-y-6">
             {/* Model Selection Panel */}
