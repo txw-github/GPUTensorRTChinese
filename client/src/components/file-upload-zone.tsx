@@ -39,11 +39,11 @@ export function FileUploadZone({ settings, selectedModel, tensorrtEnabled, gpuOp
       formData.append('outputFormats', 'srt,vtt,txt');
       formData.append('language', 'zh');
 
-      // Simulate upload progress
+      // Update upload progress
       setUploadingFiles(prev => 
         prev.map(f => 
           f.file === file 
-            ? { ...f, progress: 50 }
+            ? { ...f, progress: 50, status: 'uploading' }
             : f
         )
       );
