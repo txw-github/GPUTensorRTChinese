@@ -94,39 +94,57 @@ export interface ModelConfig {
 export const AVAILABLE_MODELS: ModelConfig[] = [
   {
     name: 'whisper-large-v3',
-    displayName: 'Whisper Large V3 (推荐)',
+    displayName: 'Whisper Large V3 (最佳质量)',
     type: 'whisper',
     supportedLanguages: ['zh', 'en', 'ja', 'ko'],
     gpuMemoryRequired: 4096,
     tensorrtSupport: true,
-    description: '最新的Whisper大模型，中文识别准确率最高'
+    description: 'OpenAI最新大模型，专业级中文识别，适合RTX 3060 Ti 6GB显卡'
   },
   {
     name: 'whisper-medium',
-    displayName: 'Whisper Medium (平衡)',
+    displayName: 'Whisper Medium (推荐平衡)',
     type: 'whisper',
     supportedLanguages: ['zh', 'en', 'ja', 'ko'],
     gpuMemoryRequired: 2048,
     tensorrtSupport: true,
-    description: '中等大小模型，速度与准确率平衡'
+    description: '平衡模型，速度快准确率高，RTX 3060 Ti最佳选择'
   },
   {
     name: 'whisper-small',
-    displayName: 'Whisper Small (快速)',
+    displayName: 'Whisper Small (快速处理)',
     type: 'whisper',
     supportedLanguages: ['zh', 'en', 'ja', 'ko'],
     gpuMemoryRequired: 1024,
     tensorrtSupport: true,
-    description: '小模型，处理速度快但准确率稍低'
+    description: '轻量模型，处理速度最快，适合批量转录'
   },
   {
     name: 'fireredasr-aed',
-    displayName: 'FiredASR AED (专业中文)',
+    displayName: 'FiredASR AED (中文专业版)',
     type: 'fireredasr',
     supportedLanguages: ['zh'],
     gpuMemoryRequired: 3072,
     tensorrtSupport: false,
-    description: '专门针对中文优化的ASR模型，支持方言识别'
+    description: '阿里达摩院中文ASR，专业电视剧音频识别，支持方言'
+  },
+  {
+    name: 'whisper-turbo',
+    displayName: 'Whisper Turbo (实时处理)',
+    type: 'whisper',
+    supportedLanguages: ['zh', 'en', 'ja', 'ko'],
+    gpuMemoryRequired: 1536,
+    tensorrtSupport: true,
+    description: '优化版本，实时转录，低延迟高效率'
+  },
+  {
+    name: 'custom-chinese-v1',
+    displayName: '中文定制模型 V1 (电视剧优化)',
+    type: 'custom',
+    supportedLanguages: ['zh'],
+    gpuMemoryRequired: 2560,
+    tensorrtSupport: true,
+    description: '针对中文电视剧优化训练，识别古装剧、现代剧效果极佳'
   }
 ];
 

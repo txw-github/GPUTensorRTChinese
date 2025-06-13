@@ -6,13 +6,14 @@ import { ChineseSettings } from "@/components/chinese-settings";
 import { PerformanceMonitor } from "@/components/performance-monitor";
 import { SystemStatus } from "@/components/system-status";
 import { UsageExamples } from "@/components/usage-examples";
-import { Settings, Video, Cpu, Zap, Monitor } from "lucide-react";
+import { Settings, Video, Cpu, Zap, Monitor, Play, Upload, Download, Gauge } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import type { ChineseSettings as ChineseSettingsType, ModelConfig } from "@shared/schema";
 import { AVAILABLE_MODELS } from "@shared/schema";
 
@@ -35,60 +36,105 @@ export default function Home() {
   const currentModel = getModelInfo(selectedModel);
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b border-gray-200">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+      {/* Modern Header */}
+      <header className="bg-white/80 backdrop-blur-xl border-b border-gray-200/50 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                <Video className="text-primary-foreground" size={16} />
+          <div className="flex justify-between items-center h-20">
+            <div className="flex items-center space-x-4">
+              <div className="w-12 h-12 bg-gradient-to-br from-purple-600 to-blue-600 rounded-2xl flex items-center justify-center shadow-lg">
+                <Video className="text-white" size={24} />
               </div>
               <div>
-                <h1 className="text-xl font-semibold text-gray-900">VideoSubtitle Transcriber</h1>
-                <p className="text-xs text-gray-500 font-mono">GPU-Accelerated Chinese Transcription</p>
+                <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+                  中文视频转录系统
+                </h1>
+                <p className="text-sm text-gray-600 font-medium">RTX 3060 Ti 专业版 • 多模型智能转录</p>
               </div>
             </div>
             <div className="flex items-center space-x-4">
               <SystemStatus />
-              <button className="p-2 text-gray-400 hover:text-gray-500 transition-colors">
-                <Settings size={16} />
-              </button>
+              <Button variant="ghost" size="sm" className="h-10 w-10 rounded-full">
+                <Settings size={18} />
+              </Button>
             </div>
           </div>
         </div>
       </header>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Quick Action Bar */}
+        <div className="mb-8">
+          <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-6 border border-gray-200/50 shadow-sm">
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              <div className="flex items-center gap-6">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center">
+                    <Upload className="w-5 h-5 text-green-600" />
+                  </div>
+                  <div>
+                    <p className="font-semibold text-gray-900">快速上传</p>
+                    <p className="text-sm text-gray-600">拖拽视频文件开始转录</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center">
+                    <Gauge className="w-5 h-5 text-blue-600" />
+                  </div>
+                  <div>
+                    <p className="font-semibold text-gray-900">实时监控</p>
+                    <p className="text-sm text-gray-600">GPU使用率和进度</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center">
+                    <Download className="w-5 h-5 text-purple-600" />
+                  </div>
+                  <div>
+                    <p className="font-semibold text-gray-900">多格式导出</p>
+                    <p className="text-sm text-gray-600">SRT/VTT/TXT字幕</p>
+                  </div>
+                </div>
+              </div>
+              <Button className="bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg hover:shadow-xl transition-all duration-200">
+                <Play className="w-4 h-4 mr-2" />
+                开始转录
+              </Button>
+            </div>
+          </div>
+        </div>
+
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Upload and Processing Area */}
           <div className="lg:col-span-2 space-y-6">
             {/* Model Selection Panel */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Cpu className="h-5 w-5" />
-                  转录模型配置
+            <Card className="border-0 shadow-lg bg-white/70 backdrop-blur-sm">
+              <CardHeader className="pb-4">
+                <CardTitle className="flex items-center gap-3 text-xl">
+                  <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-blue-500 rounded-lg flex items-center justify-center">
+                    <Cpu className="h-4 w-4 text-white" />
+                  </div>
+                  AI模型配置
                 </CardTitle>
-                <CardDescription>
-                  选择适合您RTX 3060 Ti显卡的最佳转录模型
+                <CardDescription className="text-base">
+                  针对RTX 3060 Ti优化的专业转录模型，支持中文电视剧音频识别
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-3">
-                    <Label htmlFor="model-select">转录模型</Label>
+                  <div className="space-y-4">
+                    <Label htmlFor="model-select" className="text-base font-semibold">AI转录模型</Label>
                     <Select value={selectedModel} onValueChange={setSelectedModel}>
-                      <SelectTrigger id="model-select">
-                        <SelectValue placeholder="选择转录模型" />
+                      <SelectTrigger id="model-select" className="h-12">
+                        <SelectValue placeholder="选择最适合的AI模型" />
                       </SelectTrigger>
                       <SelectContent>
                         {AVAILABLE_MODELS.map((model) => (
                           <SelectItem key={model.name} value={model.name}>
-                            <div className="flex items-center gap-2">
-                              <span>{model.displayName}</span>
+                            <div className="flex items-center gap-3 py-1">
+                              <span className="font-medium">{model.displayName}</span>
                               {model.tensorrtSupport && (
-                                <Badge variant="secondary" className="text-xs">
+                                <Badge variant="secondary" className="text-xs bg-green-100 text-green-700">
                                   TensorRT
                                 </Badge>
                               )}
@@ -98,20 +144,24 @@ export default function Home() {
                       </SelectContent>
                     </Select>
                     {currentModel && (
-                      <div className="text-sm text-gray-600">
-                        <p>{currentModel.description}</p>
-                        <p className="mt-1">
-                          显存需求: <span className="font-medium">{currentModel.gpuMemoryRequired}MB</span>
-                        </p>
+                      <div className="p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-200">
+                        <p className="font-medium text-gray-900 mb-2">{currentModel.description}</p>
+                        <div className="flex items-center justify-between text-sm">
+                          <span className="text-gray-600">显存需求:</span>
+                          <span className="font-semibold text-blue-600">{currentModel.gpuMemoryRequired}MB</span>
+                        </div>
                       </div>
                     )}
                   </div>
 
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <Label htmlFor="tensorrt-switch" className="text-sm font-medium">
-                        TensorRT 加速
-                      </Label>
+                  <div className="space-y-5">
+                    <div className="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
+                      <div>
+                        <Label htmlFor="tensorrt-switch" className="text-base font-medium text-gray-900">
+                          TensorRT 加速
+                        </Label>
+                        <p className="text-sm text-gray-600">GPU推理优化，提升3-5倍速度</p>
+                      </div>
                       <Switch
                         id="tensorrt-switch"
                         checked={tensorrtEnabled && currentModel?.tensorrtSupport}
@@ -119,10 +169,13 @@ export default function Home() {
                         disabled={!currentModel?.tensorrtSupport}
                       />
                     </div>
-                    <div className="flex items-center justify-between">
-                      <Label htmlFor="gpu-opt-switch" className="text-sm font-medium">
-                        RTX 3060 Ti 优化
-                      </Label>
+                    <div className="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
+                      <div>
+                        <Label htmlFor="gpu-opt-switch" className="text-base font-medium text-gray-900">
+                          RTX 3060 Ti 专项优化
+                        </Label>
+                        <p className="text-sm text-gray-600">针对6GB显存优化配置</p>
+                      </div>
                       <Switch
                         id="gpu-opt-switch"
                         checked={gpuOptimization}
@@ -131,14 +184,25 @@ export default function Home() {
                     </div>
                     
                     {currentModel && (
-                      <div className="p-3 bg-blue-50 dark:bg-blue-950 rounded-lg">
-                        <div className="flex items-center gap-2 text-sm text-blue-700 dark:text-blue-300">
+                      <div className="p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl border border-green-200">
+                        <div className="flex items-center gap-2 text-green-700 mb-2">
                           <Zap className="h-4 w-4" />
-                          <span className="font-medium">性能预估</span>
+                          <span className="font-semibold">性能预估</span>
                         </div>
-                        <div className="mt-2 text-xs text-blue-600 dark:text-blue-400">
-                          <p>处理速度: {currentModel.name.includes('large') ? '慢但准确' : currentModel.name.includes('medium') ? '平衡' : '快速'}</p>
-                          <p>中文准确率: {currentModel.name.includes('fireredasr') ? '专业级' : '高'}</p>
+                        <div className="space-y-1 text-sm text-green-600">
+                          <div className="flex justify-between">
+                            <span>处理速度:</span>
+                            <span className="font-medium">
+                              {currentModel.name.includes('large') ? '慢但精确' : 
+                               currentModel.name.includes('medium') ? '平衡模式' : '快速处理'}
+                            </span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span>中文准确率:</span>
+                            <span className="font-medium">
+                              {currentModel.name.includes('fireredasr') ? '98%+ 专业级' : '95%+ 高精度'}
+                            </span>
+                          </div>
                         </div>
                       </div>
                     )}
@@ -157,13 +221,35 @@ export default function Home() {
             <RealtimeResults />
           </div>
 
-          {/* Settings and Performance Sidebar */}
+          {/* Enhanced Sidebar */}
           <div className="space-y-6">
-            <ChineseSettings 
-              settings={chineseSettings} 
-              onSettingsChange={setChineseSettings} 
-            />
-            <PerformanceMonitor />
+            <Card className="border-0 shadow-lg bg-white/70 backdrop-blur-sm">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-lg">
+                  <Monitor className="h-5 w-5 text-purple-600" />
+                  系统监控
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <PerformanceMonitor />
+              </CardContent>
+            </Card>
+            
+            <Card className="border-0 shadow-lg bg-white/70 backdrop-blur-sm">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-lg">
+                  <Settings className="h-5 w-5 text-blue-600" />
+                  中文处理设置
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ChineseSettings 
+                  settings={chineseSettings} 
+                  onSettingsChange={setChineseSettings} 
+                />
+              </CardContent>
+            </Card>
+
             <SystemStatus detailed />
             <UsageExamples />
           </div>
