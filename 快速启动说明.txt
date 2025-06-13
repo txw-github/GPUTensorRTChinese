@@ -1,5 +1,7 @@
 中文电视剧转录系统 - Windows 快速启动指南
 
+✅ 问题已修复！现在可以正常启动了
+
 === 最简单的启动方法 ===
 
 1. 双击运行：start-windows.bat
@@ -7,12 +9,14 @@
 
 2. 如果第1步不行，双击运行：start-cmd.bat
 
-3. 如果都不行，打开命令提示符：
+3. 手动命令行启动：
    cd D:\Desktop\GPUTensorRTChinese-main
    set NODE_ENV=development&& npx tsx server/index.ts
 
 4. 启动成功后打开浏览器访问：
    http://localhost:5000
+
+✅ 已修复 ENOTSUP 错误 - 现在支持Windows本地环境
 
 === 问题排查 ===
 
