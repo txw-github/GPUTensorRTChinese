@@ -106,7 +106,7 @@ export default function Home() {
 
         <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
           {/* Main Upload and Processing Area */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="xl:col-span-3 space-y-6">
             {/* Model Selection Panel */}
             <Card className="border-0 shadow-lg bg-white/70 backdrop-blur-sm">
               <CardHeader className="pb-4">
