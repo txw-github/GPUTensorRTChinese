@@ -5,8 +5,7 @@ import { RealtimeResults } from "@/components/realtime-results";
 import { ChineseSettings } from "@/components/chinese-settings";
 import { PerformanceMonitor } from "@/components/performance-monitor";
 import { SystemStatus } from "@/components/system-status";
-import { UsageExamples } from "@/components/usage-examples";
-import { Settings, Video, Cpu, Zap, Monitor, Play, Upload, Download, Gauge, Info, Activity } from "lucide-react";
+import { Settings, Video, Cpu, Zap, Monitor, Upload, Download } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -60,219 +59,128 @@ export default function Home() {
         </div>
       </header>
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        {/* Hero Section */}
-        <div className="mb-8">
-          <div className="backdrop-blur-xl bg-white/10 rounded-3xl p-8 border border-white/20 shadow-2xl">
-            <div className="text-center mb-8">
-              <h2 className="text-4xl font-bold text-white mb-4 drop-shadow-lg">
-                专业级中文视频转录
-              </h2>
-              <p className="text-cyan-200 text-lg max-w-2xl mx-auto leading-relaxed">
-                基于RTX 3060 Ti GPU加速，支持Whisper、FiredASR等多种AI模型，实现95%+准确率的中文语音识别
-              </p>
-            </div>
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* 主要内容区域 */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* 左侧 - 上传和设置 */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* 文件上传区域 */}
+            <FileUploadZone 
+              selectedModel={selectedModel}
+              tensorrtEnabled={tensorrtEnabled}
+              onUploadComplete={(jobId) => {
+                console.log('上传完成，任务ID:', jobId);
+              }}
+            />
             
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-              <div className="backdrop-blur-sm bg-white/10 rounded-2xl p-6 border border-white/20 hover:bg-white/20 transition-all duration-300">
-                <div className="w-12 h-12 bg-gradient-to-br from-green-400 to-emerald-500 rounded-xl flex items-center justify-center mb-4 shadow-lg">
-                  <Upload className="w-6 h-6 text-white" />
-                </div>
-                <h3 className="text-white font-bold text-lg mb-2">智能上传</h3>
-                <p className="text-cyan-200 text-sm">支持MP4/MKV/AVI格式，最大10GB，4K分辨率</p>
-              </div>
-              
-              <div className="backdrop-blur-sm bg-white/10 rounded-2xl p-6 border border-white/20 hover:bg-white/20 transition-all duration-300">
-                <div className="w-12 h-12 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-xl flex items-center justify-center mb-4 shadow-lg">
-                  <Zap className="w-6 h-6 text-white" />
-                </div>
-                <h3 className="text-white font-bold text-lg mb-2">TensorRT加速</h3>
-                <p className="text-cyan-200 text-sm">GPU加速推理，速度提升3-5倍，实时转录</p>
-              </div>
-              
-              <div className="backdrop-blur-sm bg-white/10 rounded-2xl p-6 border border-white/20 hover:bg-white/20 transition-all duration-300">
-                <div className="w-12 h-12 bg-gradient-to-br from-purple-400 to-pink-500 rounded-xl flex items-center justify-center mb-4 shadow-lg">
-                  <Download className="w-6 h-6 text-white" />
-                </div>
-                <h3 className="text-white font-bold text-lg mb-2">多格式导出</h3>
-                <p className="text-cyan-200 text-sm">SRT、VTT、TXT字幕格式，完美兼容</p>
-              </div>
-            </div>
-            
-            <div className="text-center">
-              <Button className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 text-white font-bold py-4 px-8 rounded-2xl shadow-2xl hover:shadow-cyan-500/25 transition-all duration-300 text-lg">
-                <Play className="w-5 h-5 mr-3" />
-                开始AI转录
-              </Button>
-            </div>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
-          {/* Main Upload and Processing Area */}
-          <div className="xl:col-span-3 space-y-6">
-            {/* Model Selection Panel */}
-            <Card className="border-0 shadow-2xl backdrop-blur-xl bg-white/10 border border-white/20">
-              <CardHeader className="pb-4">
-                <CardTitle className="flex items-center gap-3 text-xl text-white">
-                  <div className="w-10 h-10 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-xl flex items-center justify-center shadow-lg">
-                    <Cpu className="h-5 w-5 text-white" />
-                  </div>
-                  AI模型配置
-                </CardTitle>
-                <CardDescription className="text-base text-cyan-200">
-                  针对RTX 3060 Ti优化的专业转录模型，支持中文电视剧音频识别
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-6">
+            {/* 模型选择和设置 */}
+            <Card className="glass border-white/20">
+              <CardContent className="p-6">
+                <h3 className="text-xl font-bold text-white mb-4 flex items-center">
+                  <Settings className="w-5 h-5 mr-2" />
+                  转录设置
+                </h3>
+                
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-4">
-                    <Label htmlFor="model-select" className="text-base font-semibold text-white">AI转录模型</Label>
+                  <div className="space-y-3">
+                    <Label className="text-white font-medium">AI 模型选择</Label>
                     <Select value={selectedModel} onValueChange={setSelectedModel}>
-                      <SelectTrigger id="model-select" className="h-12 bg-white/10 border-white/30 text-white">
-                        <SelectValue placeholder="选择最适合的AI模型" />
+                      <SelectTrigger className="glass-light border-white/30 text-white">
+                        <SelectValue />
                       </SelectTrigger>
-                      <SelectContent className="bg-gray-900 border-gray-700">
+                      <SelectContent className="glass border-white/20">
                         {AVAILABLE_MODELS.map((model) => (
-                          <SelectItem key={model.name} value={model.name} className="text-white hover:bg-gray-800">
-                            <div className="flex items-center gap-3 py-1">
+                          <SelectItem key={model.name} value={model.name} className="text-white">
+                            <div className="flex flex-col">
                               <span className="font-medium">{model.displayName}</span>
-                              {model.tensorrtSupport && (
-                                <Badge variant="secondary" className="text-xs bg-green-500/20 text-green-400 border-green-500/30">
-                                  TensorRT
-                                </Badge>
-                              )}
+                              <span className="text-xs text-muted-foreground">{model.description}</span>
                             </div>
                           </SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
                     {currentModel && (
-                      <div className="p-4 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 rounded-xl border border-cyan-500/30">
-                        <p className="font-medium text-white mb-2">{currentModel.description}</p>
-                        <div className="flex items-center justify-between text-sm">
-                          <span className="text-cyan-200">显存需求:</span>
-                          <span className="font-semibold text-cyan-400">{currentModel.gpuMemoryRequired}MB</span>
-                        </div>
+                      <div className="text-xs text-blue-200 space-y-1">
+                        <p>显存需求: {currentModel.gpuMemoryRequired}MB</p>
+                        <p>TensorRT: {currentModel.tensorrtSupport ? '支持' : '不支持'}</p>
                       </div>
                     )}
                   </div>
-
-                  <div className="space-y-5">
-                    <div className="flex items-center justify-between p-4 bg-white/10 rounded-xl border border-white/20">
-                      <div>
-                        <Label htmlFor="tensorrt-switch" className="text-base font-medium text-white">
-                          TensorRT 加速
-                        </Label>
-                        <p className="text-sm text-cyan-200">GPU推理优化，提升3-5倍速度</p>
-                      </div>
-                      <Switch
-                        id="tensorrt-switch"
-                        checked={tensorrtEnabled && currentModel?.tensorrtSupport}
+                  
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <Label className="text-white font-medium">TensorRT 加速</Label>
+                      <Switch 
+                        checked={tensorrtEnabled} 
                         onCheckedChange={setTensorrtEnabled}
-                        disabled={!currentModel?.tensorrtSupport}
-                        className="data-[state=checked]:bg-gradient-to-r data-[state=checked]:from-cyan-400 data-[state=checked]:to-blue-500"
+                        className="data-[state=checked]:bg-blue-500"
                       />
                     </div>
-                    <div className="flex items-center justify-between p-4 bg-white/10 rounded-xl border border-white/20">
-                      <div>
-                        <Label htmlFor="gpu-opt-switch" className="text-base font-medium text-white">
-                          RTX 3060 Ti 专项优化
-                        </Label>
-                        <p className="text-sm text-cyan-200">针对8GB显存优化配置</p>
-                      </div>
-                      <Switch
-                        id="gpu-opt-switch"
-                        checked={gpuOptimization}
+                    <div className="flex items-center justify-between">
+                      <Label className="text-white font-medium">GPU 优化</Label>
+                      <Switch 
+                        checked={gpuOptimization} 
                         onCheckedChange={setGpuOptimization}
-                        className="data-[state=checked]:bg-gradient-to-r data-[state=checked]:from-cyan-400 data-[state=checked]:to-blue-500"
+                        className="data-[state=checked]:bg-blue-500"
                       />
                     </div>
-                    
-                    {currentModel && (
-                      <div className="p-4 bg-gradient-to-r from-green-500/20 to-emerald-500/20 rounded-xl border border-green-500/30">
-                        <div className="flex items-center gap-2 text-green-400 mb-2">
-                          <Zap className="h-4 w-4" />
-                          <span className="font-semibold">性能预估</span>
-                        </div>
-                        <div className="space-y-1 text-sm text-green-300">
-                          <div className="flex justify-between">
-                            <span>处理速度:</span>
-                            <span className="font-medium text-white">
-                              {currentModel.name.includes('large') ? '慢但精确' : 
-                               currentModel.name.includes('medium') ? '平衡模式' : '快速处理'}
-                            </span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span>中文准确率:</span>
-                            <span className="font-medium text-white">
-                              {currentModel.name.includes('fireredasr') ? '98%+ 专业级' : '95%+ 高精度'}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    )}
                   </div>
                 </div>
               </CardContent>
             </Card>
-
-            <FileUploadZone 
-              settings={chineseSettings} 
-              selectedModel={selectedModel}
-              tensorrtEnabled={tensorrtEnabled}
-              gpuOptimization={gpuOptimization}
-            />
-            <ProcessingQueue />
-            <RealtimeResults />
           </div>
-
-          {/* Enhanced Sidebar */}
+          
+          {/* 右侧 - 系统状态和队列 */}
           <div className="space-y-6">
-            <Card className="border-0 shadow-2xl backdrop-blur-xl bg-white/10 border border-white/20">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-3 text-lg text-white">
-                  <div className="w-8 h-8 bg-gradient-to-br from-purple-400 to-pink-500 rounded-lg flex items-center justify-center">
-                    <Monitor className="h-4 w-4 text-white" />
-                  </div>
-                  系统监控
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <PerformanceMonitor />
-              </CardContent>
-            </Card>
+            {/* 系统状态 */}
+            <PerformanceMonitor />
             
-            <Card className="border-0 shadow-2xl backdrop-blur-xl bg-white/10 border border-white/20">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-3 text-lg text-white">
-                  <div className="w-8 h-8 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-lg flex items-center justify-center">
-                    <Settings className="h-4 w-4 text-white" />
-                  </div>
-                  中文处理设置
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ChineseSettings 
-                  settings={chineseSettings} 
-                  onSettingsChange={setChineseSettings} 
-                />
-              </CardContent>
-            </Card>
-
-            <Card className="border-0 shadow-2xl backdrop-blur-xl bg-white/10 border border-white/20">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-3 text-lg text-white">
-                  <div className="w-8 h-8 bg-gradient-to-br from-green-400 to-emerald-500 rounded-lg flex items-center justify-center">
-                    <Info className="h-4 w-4 text-white" />
-                  </div>
-                  系统状态
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <SystemStatus detailed />
-              </CardContent>
-            </Card>
+            {/* 处理队列 */}
+            <ProcessingQueue />
+          </div>
+        </div>
+        
+        {/* 底部功能区域 */}
+        <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* 实时结果 */}
+          <RealtimeResults />
+          
+          {/* 中文处理设置 */}
+          <ChineseSettings 
+            settings={chineseSettings}
+            onSettingsChange={setChineseSettings}
+          />
+        </div>
+        
+        {/* 特性展示 */}
+        <div className="mt-12">
+          <div className="glass rounded-3xl p-8 border-white/20">
+            <h3 className="text-2xl font-bold text-white text-center mb-8">核心特性</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="glass-light rounded-2xl p-6 border-white/20 hover:bg-white/10 transition-all duration-300">
+                <div className="w-12 h-12 bg-gradient-to-br from-green-400 to-emerald-500 rounded-xl flex items-center justify-center mb-4 shadow-lg">
+                  <Upload className="w-6 h-6 text-white" />
+                </div>
+                <h4 className="text-white font-bold text-lg mb-2">智能上传</h4>
+                <p className="text-blue-200 text-sm">支持MP4/MKV/AVI等主流格式，最大10GB文件，4K分辨率处理</p>
+              </div>
+              
+              <div className="glass-light rounded-2xl p-6 border-white/20 hover:bg-white/10 transition-all duration-300">
+                <div className="w-12 h-12 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-xl flex items-center justify-center mb-4 shadow-lg">
+                  <Zap className="w-6 h-6 text-white" />
+                </div>
+                <h4 className="text-white font-bold text-lg mb-2">TensorRT加速</h4>
+                <p className="text-blue-200 text-sm">RTX 3060 Ti GPU加速推理，转录速度提升3-5倍</p>
+              </div>
+              
+              <div className="glass-light rounded-2xl p-6 border-white/20 hover:bg-white/10 transition-all duration-300">
+                <div className="w-12 h-12 bg-gradient-to-br from-purple-400 to-pink-500 rounded-xl flex items-center justify-center mb-4 shadow-lg">
+                  <Download className="w-6 h-6 text-white" />
+                </div>
+                <h4 className="text-white font-bold text-lg mb-2">多格式导出</h4>
+                <p className="text-blue-200 text-sm">SRT、VTT、TXT字幕格式，完美兼容各种播放器</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>

@@ -38,14 +38,19 @@ export function FileUploadZone({ onUploadComplete, selectedModel = 'whisper-larg
         });
       }, 200);
 
-      const response = await apiRequest('/api/transcribe', {
+      const response = await fetch('/api/transcribe', {
         method: 'POST',
         body: formData,
       });
-
+      
       clearInterval(progressInterval);
       setUploadProgress(100);
-      return response;
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      return await response.json();
     },
     onSuccess: (data) => {
       console.log('Upload successful:', data);
