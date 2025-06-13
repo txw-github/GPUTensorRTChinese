@@ -152,45 +152,74 @@ export function FileUploadZone({ settings, selectedModel, tensorrtEnabled, gpuOp
   };
 
   return (
-    <Card>
+    <Card className="border-0 shadow-lg bg-white/70 backdrop-blur-sm">
       <CardHeader>
-        <CardTitle>Upload Videos</CardTitle>
+        <CardTitle className="flex items-center gap-3 text-xl">
+          <div className="w-8 h-8 bg-gradient-to-br from-green-500 to-emerald-500 rounded-lg flex items-center justify-center">
+            <CloudUpload className="h-4 w-4 text-white" />
+          </div>
+          视频文件上传
+        </CardTitle>
+        <p className="text-gray-600">支持中文电视剧、电影、综艺等各类视频格式</p>
       </CardHeader>
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-6">
         <div
           {...getRootProps()}
-          className={`border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-all duration-200 ${
+          className={`border-2 border-dashed rounded-2xl p-12 text-center cursor-pointer transition-all duration-300 ${
             isDragActive 
-              ? 'border-primary bg-primary/5' 
-              : 'border-gray-300 hover:border-primary hover:bg-primary/5'
+              ? 'border-purple-400 bg-gradient-to-br from-purple-50 to-blue-50 scale-105' 
+              : 'border-gray-300 hover:border-purple-400 hover:bg-gradient-to-br hover:from-purple-50 hover:to-blue-50 hover:scale-105'
           }`}
         >
           <input {...getInputProps()} />
-          <div className="mx-auto w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4">
-            <CloudUpload className="text-primary" size={24} />
+          <div className="mx-auto w-20 h-20 bg-gradient-to-br from-purple-100 to-blue-100 rounded-2xl flex items-center justify-center mb-6">
+            <CloudUpload className="text-purple-600" size={36} />
           </div>
-          <p className="text-lg font-medium text-gray-900 mb-2">
-            {isDragActive ? "Drop video files here..." : "Drop video files here"}
-          </p>
-          <p className="text-sm text-gray-500 mb-4">or click to browse</p>
-          <div className="flex flex-wrap justify-center gap-2 text-xs text-gray-400">
-            <span className="bg-gray-100 px-2 py-1 rounded">MP4</span>
-            <span className="bg-gray-100 px-2 py-1 rounded">AVI</span>
-            <span className="bg-gray-100 px-2 py-1 rounded">MOV</span>
-            <span className="bg-gray-100 px-2 py-1 rounded">MKV</span>
-            <span className="bg-gray-100 px-2 py-1 rounded">Up to 4K</span>
+          <h3 className="text-2xl font-bold text-gray-900 mb-3">
+            {isDragActive ? "松开鼠标完成上传" : "拖拽视频文件到此处"}
+          </h3>
+          <p className="text-lg text-gray-600 mb-6">或点击此区域选择文件</p>
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-3 max-w-md mx-auto">
+            <div className="bg-white/80 backdrop-blur-sm px-3 py-2 rounded-lg border border-gray-200">
+              <span className="text-sm font-medium text-gray-700">MP4</span>
+            </div>
+            <div className="bg-white/80 backdrop-blur-sm px-3 py-2 rounded-lg border border-gray-200">
+              <span className="text-sm font-medium text-gray-700">MKV</span>
+            </div>
+            <div className="bg-white/80 backdrop-blur-sm px-3 py-2 rounded-lg border border-gray-200">
+              <span className="text-sm font-medium text-gray-700">AVI</span>
+            </div>
+            <div className="bg-white/80 backdrop-blur-sm px-3 py-2 rounded-lg border border-gray-200">
+              <span className="text-sm font-medium text-gray-700">MOV</span>
+            </div>
+            <div className="bg-gradient-to-r from-purple-100 to-blue-100 px-3 py-2 rounded-lg border border-purple-200">
+              <span className="text-sm font-bold text-purple-700">4K/8K</span>
+            </div>
           </div>
         </div>
 
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-2 text-sm text-gray-500">
-            <Info size={16} />
-            <span>Maximum file size: 10GB per video</span>
+        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4 border border-blue-200">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                <Info size={16} className="text-blue-600" />
+              </div>
+              <div>
+                <p className="font-medium text-blue-900">上传说明</p>
+                <p className="text-sm text-blue-700">最大文件: 10GB | 推荐: 1080p-4K视频</p>
+              </div>
+            </div>
+            <Button 
+              onClick={() => {
+                const input = document.querySelector('input[type="file"]') as HTMLInputElement;
+                if (input) input.click();
+              }}
+              className="bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg hover:shadow-xl transition-all duration-200"
+            >
+              <Plus size={16} className="mr-2" />
+              选择文件
+            </Button>
           </div>
-          <Button onClick={() => document.querySelector('input[type="file"]')?.click()}>
-            <Plus size={16} className="mr-2" />
-            Add Files
-          </Button>
         </div>
 
         {/* Upload Progress */}
