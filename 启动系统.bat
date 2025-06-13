@@ -44,8 +44,8 @@ if not exist node_modules (
 echo.
 echo [3/4] 启动转录系统...
 echo.
-echo 前端地址: http://localhost:5173
-echo 后端API: http://localhost:5000
+echo 系统地址: http://localhost:5000
+echo 后端API: http://localhost:5000/api
 echo.
 echo 正在启动服务器...
 
@@ -54,11 +54,11 @@ start "中文转录系统" /min cmd /c "npm run dev"
 
 echo.
 echo [4/4] 等待服务启动...
-timeout /t 5 >nul
+timeout /t 8 >nul
 
 echo.
 echo 正在打开浏览器...
-start http://localhost:5173
+start http://localhost:5000
 
 echo.
 echo ================================================================================
